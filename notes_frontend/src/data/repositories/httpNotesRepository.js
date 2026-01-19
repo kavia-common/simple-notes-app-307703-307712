@@ -28,13 +28,24 @@
  */
 function getApiBase() {
   const explicit = process.env.REACT_APP_API_BASE;
-  if (explicit && String(explicit).trim()) return String(explicit).replace(/\/+$/, "");
+  if (explicit && String(explicit).trim()) {
+    const cleaned = String(explicit).trim().replace(/\/+$/, "");
+    // Allow either ".../api" or just a host; normalize to include /api.
+    return cleaned.endsWith("/api") ? cleaned : `${cleaned}/api`;
+  }
 
   const backend = process.env.REACT_APP_BACKEND_URL;
-  if (backend && String(backend).trim()) return `${String(backend).replace(/\/+$/, "")}/api`;
+  if (backend && String(backend).trim()) {
+    const cleaned = String(backend).trim().replace(/\/+$/, "");
+    // Allow BACKEND_URL to already include /api.
+    return cleaned.endsWith("/api") ? cleaned : `${cleaned}/api`;
+  }
 
-  // Default for local dev per task context: backend runs on port 3001.
-  return "http://localhost:3001/api";
+  /**
+   * In many hosted preview environments, the frontend is served behind a gateway that can route
+   * /api/* to the backend service. Using a same-origin relative base is the most portable default.
+   */
+  return "/api";
 }
 
 /**
