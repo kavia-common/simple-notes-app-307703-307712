@@ -11,7 +11,7 @@ export default function NoteEditor({ note, onSave, isSaving, isBusy }) {
     setLocalError("");
     setTitle(note?.title ?? "");
     setContent(note?.content ?? "");
-  }, [note?.id]); // reset when switching notes
+  }, [note?.id, note?.title, note?.content]); // reset when switching notes / when note content changes externally
 
   const isEmptySelection = !note;
 
