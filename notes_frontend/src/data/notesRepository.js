@@ -26,10 +26,10 @@
  * @property {(noteId: number) => Promise<void>} deleteNote
  */
 
-import { inMemoryNotesRepository } from "./repositories/inMemoryNotesRepository";
+import { httpNotesRepository } from "./repositories/httpNotesRepository";
 
 // PUBLIC_INTERFACE
 export function getNotesRepository() {
-  /** Returns the current notes repository implementation. Swap this to API later. */
-  return inMemoryNotesRepository;
+  /** Returns the current notes repository implementation (HTTP via backend REST API). */
+  return httpNotesRepository;
 }
